@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Your Donation | Dr. WaZzz Foundation</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .thank-you-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            color: #2ecc71;
+            margin-bottom: 1.5rem;
+        }
+        
+        .donation-details {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .donation-details h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .donation-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #7f8c8d;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .instruction-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+        
+        .instruction-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .instruction-card h3 i {
+            color: #1abc9c;
+        }
+        
+        .instruction-card ul {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .instruction-card li {
+            margin-bottom: 0.5rem;
+            color: #34495e;
+        }
+        
+        .instruction-card .highlight {
+            background: #f0f9f7;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #16a085;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (min-width: 768px) {
+            .instructions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="brand">
+                <img src="assets/images/logo.png" alt="Dr. WaZzz Foundation Logo" class="logo">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="impact-stories.html">Impact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="#donate" class="btn btn-primary">Donate</a>
+            </nav>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="thank-you-page">
+        <div class="container">
+            <div class="thank-you-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Thank You for Your Generous Donation!</h1>
+                <p>Your support means the world to us. A confirmation email with donation instructions has been sent to your email address.</p>
+                
+                <div class="donation-details">
+                    <h3>Donation Details</h3>
+                    <div class="donation-info">
+                        <div class="info-item">
+                            <span class="info-label">Donation ID</span>
+                            <span class="info-value" id="donationId">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Amount</span>
+                            <span class="info-value" id="donationAmount">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Payment Method</span>
+                            <span class="info-value" id="paymentMethod">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Status</span>
+                            <span class="info-value" id="donationStatus">Pending</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="paymentInstructions">
+                    <h2>Next Steps:</h2>
+                    <div class="instructions-grid">
+                        <!-- Mobile Money Instructions -->
+                        <div class="instruction-card" id="mobileMoneyInstructions">
+                            <h3><i class="fas fa-mobile-alt"></i> Mobile Money</h3>
+                            <p>Complete your donation using Mobile Money:</p>
+                            <ul>
+                                <li><strong>Network:</strong> MTN Mobile Money</li>
+                                <li><strong>Number:</strong> 0244 123 4567</li>
+                                <li><strong>Name:</strong> Dr. WaZzz Foundation</li>
+                                <li><strong>Reference:</strong> <span id="mobileMoneyRef">Your Donation ID</span></li>
+                                <li><strong>Amount:</strong> <span id="mobileMoneyAmount">GHS 0.00</span></li>
+                            </ul>
+                            <div class="highlight">
+                                <i class="fas fa-info-circle"></i> Please use the reference number above when making payment
+                            </div>
+                        </div>
+                        
+                        <!-- Bank Transfer Instructions -->
+                        <div class="instruction-card" id="bankTransferInstructions">
+                            <h3><i class="fas fa-university"></i> Bank Transfer</h3>
+                            <p>Complete your donation via bank transfer:</p>
+                            <ul>
+                                <li><strong>Bank:</strong> EcoBank Ghana</li>
+                                <li><strong>Account Name:</strong> Dr. WaZzz Foundation</li>
+                                <li><strong>Account Number:</strong> 1234567890</li>
+                                <li><strong>Branch:</strong> Accra Main</li>
+                                <li><strong>SWIFT:</strong> ECOCGHAC</li>
+                                <li><strong>Reference:</strong> <span id="bankTransferRef">Your Donation ID</span></li>
+                                <li><strong>Amount:</strong> <span id="bankTransferAmount">GHS 0.00</span></li>
+                            </ul>
+                            <div class="highlight">
+                                <i class="fas fa-info-circle"></i> Please include the reference number in the transfer details
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-email">
+                    <p><i class="fas fa-envelope"></i> A confirmation email has been sent to <span id="donorEmail">your email</span> with these instructions.</p>
+                    <p>Didn't receive the email? Please check your spam folder or <a href="contact.html">contact us</a>.</p>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="index.html" class="btn btn-primary">Back to Home</a>
+                    <a href="impact-stories.html" class="btn btn-secondary">See Our Impact</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <img src="assets/images/logo-white.png" alt="Dr. WaZzz Foundation Logo" class="footer-logo">
+                <p>Empowering communities through healthcare, education, and sustainable development in Ghana and beyond.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="impact-stories.html">Our Impact</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">Volunteer</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Health Street, Accra, Ghana</li>
+                    <li><i class="fas fa-phone"></i> +233 24 123 4567</li>
+                    <li><i class="fas fa-envelope"></i> info@drwazz.org</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; <span id="year"></span> Dr. WaZzz Foundation. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Update copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Get donation ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const donationId = urlParams.get('donationId');
+        
+        // Fetch donation details from the server
+        async function fetchDonationDetails() {
+            if (!donationId) {
+                // If no donation ID in URL, show error
+                document.getElementById('donationId').textContent = 'Not found';
+                document.getElementById('paymentInstructions').innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Donation details not found. Please check your email for instructions or contact support.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            try {
+                // In a real app, you would fetch this from your backend
+                // const response = await fetch(`/api/donations/${donationId}`);
+                // const donation = await response.json();
+                
+                // For demo purposes, we'll use sessionStorage to get the donation data
+                const donation = JSON.parse(sessionStorage.getItem('lastDonation')) || {
+                    donationId: donationId,
+                    donorName: 'Donor Name',
+                    donorEmail: 'donor@example.com',
+                    donationAmount: 100,
+                    paymentMethod: 'mobile_money',
+                    status: 'pending',
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Update the UI with donation details
+                updateDonationDetails(donation);
+                
+            } catch (error) {
+                console.error('Error fetching donation details:', error);
+                document.getElementById('donationId').textContent = 'Error loading';
+            }
+        }
+        
+        // Update the UI with donation details
+        function updateDonationDetails(donation) {
+            // Update basic info
+            document.getElementById('donationId').textContent = donation.donationId || 'N/A';
+            document.getElementById('donationAmount').textContent = `GHS ${(donation.donationAmount || 0).toFixed(2)}`;
+            document.getElementById('paymentMethod').textContent = formatPaymentMethod(donation.paymentMethod);
+            document.getElementById('donationStatus').textContent = donation.status ? donation.status.charAt(0).toUpperCase() + donation.status.slice(1) : 'Pending';
+            document.getElementById('donorEmail').textContent = donation.donorEmail || 'your email';
+            
+            // Update amounts in payment instructions
+            document.getElementById('mobileMoneyAmount').textContent = `GHS ${(donation.donationAmount || 0).toFixed(2)}`;
+            document.getElementById('bankTransferAmount').textContent = `GHS ${(donation.donationAmount || 0).toFixed(2)}`;
+            
+            // Update reference numbers
+            document.getElementById('mobileMoneyRef').textContent = donation.donationId || 'Your Donation ID';
+            document.getElementById('bankTransferRef').textContent = donation.donationId || 'Your Donation ID';
+            
+            // Show/hide payment methods based on selection
+            if (donation.paymentMethod === 'mobile_money') {
+                document.getElementById('bankTransferInstructions').style.display = 'none';
+                document.getElementById('mobileMoneyInstructions').style.gridColumn = '1 / -1';
+            } else if (donation.paymentMethod === 'bank_transfer') {
+                document.getElementById('mobileMoneyInstructions').style.display = 'none';
+                document.getElementById('bankTransferInstructions').style.gridColumn = '1 / -1';
+            }
+        }
+        
+        // Format payment method for display
+        function formatPaymentMethod(method) {
+            const methods = {
+                'mobile_money': 'Mobile Money',
+                'bank_transfer': 'Bank Transfer'
+            };
+            return methods[method] || method;
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', fetchDonationDetails);
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<svg width="200" height="120" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="120" rx="18" fill="#ffffff"/>
+  <rect x="6" y="6" width="188" height="108" rx="14" fill="#F2F4F4"/>
+  <path d="M60 88C60 66 84 48 100 48C116 48 140 66 140 88" stroke="#1ABC9C" stroke-width="8" stroke-linecap="round"/>
+  <path d="M80 70C80 61.1634 87.1634 54 96 54H104C112.837 54 120 61.1634 120 70V90H80V70Z" fill="#1ABC9C" fill-opacity="0.25"/>
+  <circle cx="100" cy="44" r="16" fill="#2ECC71"/>
+  <text x="100" y="108" text-anchor="middle" font-family="Poppins, Arial" font-size="18" font-weight="600" fill="#1ABC9C">UNHCR</text>
+</svg>

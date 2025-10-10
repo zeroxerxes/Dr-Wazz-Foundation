@@ -1,0 +1,13 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" rx="48" fill="#E8F8F5"/>
+  <rect x="120" y="160" width="960" height="520" rx="40" fill="#ffffff"/>
+  <path d="M220 580C220 500 320 440 400 440C480 440 580 500 580 580" stroke="#1ABC9C" stroke-width="26" stroke-linecap="round"/>
+  <path d="M640 580C640 500 740 440 820 440C900 440 1000 500 1000 580" stroke="#2ECC71" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="400" cy="360" r="80" fill="#1ABC9C"/>
+  <circle cx="820" cy="360" r="80" fill="#2ECC71"/>
+  <circle cx="610" cy="320" r="68" fill="#48C9B0"/>
+  <rect x="340" y="520" width="120" height="120" rx="26" fill="#1ABC9C"/>
+  <rect x="760" y="520" width="120" height="120" rx="26" fill="#2ECC71"/>
+  <rect x="550" y="500" width="120" height="140" rx="30" fill="#48C9B0"/>
+  <text x="600" y="700" text-anchor="middle" font-family="Poppins, Arial" font-size="32" font-weight="600" fill="#117A65">Collaborative Team</text>
+</svg>

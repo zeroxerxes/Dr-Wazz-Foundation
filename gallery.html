@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery | Dr. WaZzz Foundation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/8c8f9f668e.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/navigation.js" defer></script>
+    <style>
+        /* Gallery Section */
+        .gallery-section {
+            padding: 5rem 0;
+            background-color: var(--color-light-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--color-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--color-text);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* Category Filter */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1.8rem;
+            background: var(--color-white);
+            border: 2px solid var(--color-primary);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            font-weight: 500;
+            color: var(--color-primary);
+            font-size: 0.95rem;
+        }
+        
+        .filter-btn.active, 
+        .filter-btn:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
+        }
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s var(--transition), 
+                        box-shadow 0.3s var(--transition);
+        }
+        
+        .gallery-item {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+            background: #f5f5f5;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 1.5rem 1rem 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            margin: 2rem;
+        }
+        
+        .lightbox img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .lightbox-close, .lightbox-prev, .lightbox-next {
+            position: absolute;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+            background: var(--color-primary);
+        }
+        
+        .lightbox-close {
+            top: 20px;
+            right: 20px;
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-next {
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        /* Loading Animation */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        .image-loading {
+            background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.25rem;
+            }
+            
+            .lightbox-prev, .lightbox-next {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .gallery-filters {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+  <body>
+        <a class="sticky-donate" href="contact.html#donate">Donate Now</a>
+    <header>
+      <div class="container navbar">
+        <a href="index.html" class="brand">
+          <img src="assets/New%20images/logo.jpg" alt="Dr. WaZzz Foundation" width="44" height="44" />
+          <span>Dr. WaZzz Foundation</span>
+        </a>
+        <nav>
+          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="focus-areas.html">Focus Areas</a></li>
+            <li><a href="research-partnerships.html">Research & Partnerships</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="impact-stories.html">Impact & Stories</a></li>
+            <li><a href="contact.html">Get Involved</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="gallery-section">
+        <div class="container">
+            <div class="section-title">
+                <h1>Our Gallery</h1>
+                <p>Capturing moments from our outreach programs and community initiatives</p>
+            </div>
+            
+            <!-- Category Filters -->
+            <div class="gallery-filters" id="galleryFilters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="health">Health</button>
+                <button class="filter-btn" data-filter="education">Education</button>
+                <button class="filter-btn" data-filter="community">Community</button>
+                <button class="filter-btn" data-filter="team">Our Team</button>
+            </div>
+            
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Images will be loaded here by JavaScript -->
+            </div>
+            
+            <!-- Lightbox -->
+            <div class="lightbox" id="lightbox">
+                <span class="lightbox-close" id="lightboxClose">&times;</span>
+                <span class="lightbox-prev" id="lightboxPrev">&lsaquo;</span>
+                <div class="lightbox-content">
+                    <img id="lightboxImage" src="" alt="">
+                    <div class="lightbox-caption" id="lightboxCaption"></div>
+                </div>
+                <span class="lightbox-next" id="lightboxNext">&rsaquo;</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-content">
+        <div>
+          <h3>Dr. WaZzz Foundation</h3>
+          <p>Transforming lives through healthcare, education, and community development.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="focus-areas.html">Our Work</a></li>
+            <li><a href="impact-stories.html">Impact Stories</a></li>
+            <li><a href="team.html">Our Team</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Get Involved</h4>
+          <ul>
+            <li><a href="contact.html#volunteer">Volunteer</a></li>
+            <li><a href="contact.html#donate">Donate</a></li>
+            <li><a href="contact.html#partner">Partner With Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact Us</h4>
+          <p><i class="fas fa-envelope"></i> info@drwazz.org</p>
+          <p><i class="fas fa-phone"></i> +1 (234) 567-8900</p>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Health St, Accra, Ghana</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="container">
+          <p>&copy; <span id="year"></span> Dr. WaZzz Foundation. All rights reserved.</p>
+          <div class="footer-legal">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Update copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Enhanced gallery data with categories
+        const galleryImages = [
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0010.jpg', 
+                caption: 'Community Health Outreach',
+                category: 'health',
+                description: 'Our team conducting health screenings in local communities.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0011.jpg', 
+                caption: 'Medical Camp',
+                category: 'health',
+                description: 'Free medical camp providing essential healthcare services.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0012.jpg', 
+                caption: 'Education Program',
+                category: 'education',
+                description: 'Empowering youth through educational workshops.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0013.jpg', 
+                caption: 'Team Building',
+                category: 'team',
+                description: 'Our dedicated team at a strategy planning session.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0014.jpg', 
+                caption: 'Community Engagement',
+                category: 'community',
+                description: 'Engaging with community leaders to understand local needs.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0015.jpg', 
+                caption: 'Health Workshop',
+                category: 'health',
+                description: 'Educational workshop on preventive healthcare measures.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0016.jpg', 
+                caption: 'Field Work',
+                category: 'community',
+                description: 'Our team conducting field research in rural areas.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0017.jpg', 
+                caption: 'Team Meeting',
+                category: 'team',
+                description: 'Regular team meetings to plan and evaluate our programs.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0018.jpg', 
+                caption: 'Community Outreach',
+                category: 'community',
+                description: 'Connecting with community members to build trust.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0019.jpg', 
+                caption: 'Health Screening',
+                category: 'health',
+                description: 'Providing essential health check-ups to community members.'
+            },
+            { 
+                src: 'assets/New%20images/IMG-20251009-WA0020.jpg', 
+                caption: 'Community Training',
+                category: 'education',
+                description: 'Training community health workers to extend our reach.'
+            },
+            { 
+                src: 'assets/New%20images/logo.jpg', 
+                caption: 'Dr. WaZzz Foundation Logo',
+                category: 'team',
+                description: 'Our official logo representing hope and healing.'
+            }
+        ];
+        
+        // Global variables
+        let currentImageIndex = 0;
+        let filteredImages = [];
+        
+        // Function to load gallery images
+        function loadGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = ''; // Clear existing content
+            
+            // Store filtered images
+            filteredImages = [...galleryImages];
+            
+            filteredImages.forEach((image, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = `gallery-item ${image.category}`;
+                galleryItem.dataset.category = image.category;
+                galleryItem.dataset.index = index;
+                
+                // Create image container with loading state
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'image-container';
+                
+                // Create loading placeholder
+                const loadingPlaceholder = document.createElement('div');
+                loadingPlaceholder.className = 'image-loading';
+                loadingPlaceholder.style.width = '100%';
+                loadingPlaceholder.style.height = '100%';
+                loadingPlaceholder.style.borderRadius = '12px';
+                
+                const img = new Image();
+                img.loading = 'lazy';
+                img.alt = image.caption;
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.3s ease';
+                
+                // When image loads, fade it in and remove loading placeholder
+                img.onload = function() {
+                    img.style.opacity = '1';
+                    if (loadingPlaceholder.parentNode) {
+                        loadingPlaceholder.style.display = 'none';
+                    }
+                };
+                
+                // Handle image loading errors
+                img.onerror = function() {
+                    this.src = 'assets/images/logo-placeholder.svg';
+                    this.alt = 'Image not available';
+                    loadingPlaceholder.style.display = 'none';
+                    img.style.opacity = '1';
+                };
+                
+                // Set image source after setting up event handlers
+                img.src = image.src;
+                
+                const caption = document.createElement('div');
+                caption.className = 'gallery-caption';
+                caption.textContent = image.caption;
+                
+                // Add click event to open lightbox
+                galleryItem.addEventListener('click', () => openLightbox(index));
+                
+                // Add keyboard navigation
+                galleryItem.setAttribute('tabindex', '0');
+                galleryItem.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openLightbox(index);
+                    }
+                });
+                
+                imgContainer.appendChild(loadingPlaceholder);
+                imgContainer.appendChild(img);
+                galleryItem.appendChild(imgContainer);
+                galleryItem.appendChild(caption);
+                galleryGrid.appendChild(galleryItem);
+            });
+        }
+        
+        // Filter gallery by category
+        function filterGallery(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // Lightbox functionality
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImage');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            
+            lightboxImg.src = filteredImages[index].src;
+            lightboxImg.alt = filteredImages[index].caption;
+            lightboxCaption.textContent = filteredImages[index].description || filteredImages[index].caption;
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Focus on close button for better keyboard navigation
+            document.getElementById('lightboxClose').focus();
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function navigateLightbox(direction) {
+            if (direction === 'prev') {
+                currentImageIndex = (currentImageIndex - 1 + filteredImages.length) % filteredImages.length;
+            } else {
+                currentImageIndex = (currentImageIndex + 1) % filteredImages.length;
+            }
+            openLightbox(currentImageIndex);
+        }
+        
+        // Initialize the gallery when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load gallery
+            loadGallery();
+            
+            // Set up filter buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterGallery(button.dataset.filter);
+                });
+            });
+            
+            // Lightbox event listeners
+            document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+            document.getElementById('lightboxPrev').addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateLightbox('prev');
+            });
+            document.getElementById('lightboxNext').addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateLightbox('next');
+            });
+            
+            // Close lightbox when clicking outside the image
+            document.getElementById('lightbox').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('lightbox')) {
+                    closeLightbox();
+                }
+            });
+            
+            // Keyboard navigation for lightbox
+            document.addEventListener('keydown', (e) => {
+                const lightbox = document.getElementById('lightbox');
+                if (!lightbox.classList.contains('active')) return;
+                
+                switch(e.key) {
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'ArrowLeft':
+                        navigateLightbox('prev');
+                        break;
+                    case 'ArrowRight':
+                        navigateLightbox('next');
+                        break;
+                }
+            });
+            
+            // Touch events for mobile swipe
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+            
+            document.addEventListener('touchend', (e) => {
+                if (!document.getElementById('lightbox').classList.contains('active')) return;
+                
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+            
+            function handleSwipe() {
+                const threshold = 50; // Minimum distance to consider it a swipe
+                
+                if (touchEndX < touchStartX - threshold) {
+                    // Swipe left - next image
+                    navigateLightbox('next');
+                } else if (touchEndX > touchStartX + threshold) {
+                    // Swipe right - previous image
+                    navigateLightbox('prev');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
